@@ -1,0 +1,112 @@
+<script>
+//function showPCode() {
+  //  {{!-- var node = document.getElementById('productcode')
+    //var visibility = node.style.visibility;
+    //node.style.visibility = visibility == "visible" ? 'hidden' : "visible" --}}
+//}
+
+function showPCode(){
+if (document.getElementById('Product').checked) {
+        document.getElementById('productcodebox').style.display = 'block';
+    } else {
+        document.getElementById('productcodebox').style.display = 'none';
+    }
+}
+
+function showNoPCode(){
+if (document.getElementById('Service').checked) {
+        document.getElementById('productcodebox').style.display = 'none';
+    } else {
+        document.getElementById('productcodebox').style.visibility = 'none';
+    }
+}
+//function showNoPCode(){
+	//var node = document.getElementById('productcode')
+    //var visibility = node.style.visibility;
+    //node.style.visibility = visibility == "hidden" ? 'visible' : "hidden"
+//}
+</script>
+<link rel="stylesheet" href="/css/cstyle.css">
+{{!-- <link rel="stylesheet"  href="../public/css/cstyle.css"> --}}
+<h3 id="feedbacktitle">Customer's Feedback</h3>
+<br>
+<div class="container">
+	<div class="feedbackbox">
+	
+		{{!-- <form action="../feedback/upload" method="POST">
+	<input type="file" id="posterUpload" name="posterUpload" accept="image/png,
+ image/jpeg,image/jpg,image/gif"> 
+ <input id="posterurl" type="hidden" name="posterurl">
+ <div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div>
+
+</form> --}}
+		<form action="../feedback/messageemailsend" method="post" id="customerfeedbackformm">
+	<input type="file" id="feedbackimg" name="feedbackimg" accept="image/png,image/jpeg,image/jpg,image/gif"> 
+ <input id="feedbackimgurl" type="hidden" name="feedbackimgurl">
+ <div class="font-weight-bold text-danger small" id="posterErr" style="display:none"></div>
+
+		{{#if user}}
+		<div class="form-group">
+			<label class="font-italic" for="emailfeedback">Email:</label><br>
+			<textarea class="feedbackuseremail" id="emailfeedback" name="emailfeedback" rows="1" cols="5" readonly="readonly">{{user.email}}</textarea>
+		</div>
+		{{!-- <div class="form-group">
+				<label class="font-italic" for="PorS"></label>
+				<input type="radio" onclick="javascript:showNoPCode();" name="PorS" id="Service" value="Service"/>Service<br>
+				<input type="radio" onclick="javascript:showPCode();" name="PorS" id="Product" value="Product"/>Product<br>
+				</div> --}}
+				<div class="form-check form-check-inline">
+						<label class="font-italic" for="PorS">About Service or Product:</label><br>
+							<input class="form-check-input" onclick="javascript:showNoPCode()" type="radio" id="Service" value="Service" name="PorS"><br>
+							<label class="form-check-label" for="Service">Service</label><br>
+							<input class="form-check-input" onclick="javascript:showPCode();" type="radio" id="Product" value="Product" name="PorS"><br>
+							<label class="form-check-label" for="Product">Product</label><br>
+						</div>
+				{{!-- <label class="font-italic" for="PorS"></label>
+                <select name="DropdownPorS">
+    <option value="Products" onclick="javascript:showPCode()">Products</option>
+    <option value="Services">Services</option>
+  </select> --}}
+	<div  id="productcodebox" style="display: none;">
+			<label class="font-italic" for="productcode">productcode:</label><br>
+			<textarea class="feedbackformsmall" id="productcode" name="productcode" rows="1" cols="5">{{productcode}}</textarea>
+		</div>
+		{{else}}
+			<div class="form-group">
+				<label class="font-italic" for="emailfeedback">Email</label><br>
+				<textarea class="feedbackformsmall" id="emailfeedback" name="emailfeedback" rows="1" cols="5">{{emailfeedback}}</textarea>
+			</div>
+			
+			<div class="form-group">
+				
+				<label class="font-italic" for="PorS"></label>
+                <select name="PorS">
+    <option value="Services">Services</option>
+  </select>
+		{{/if}}
+           <br><br>
+					 <label class="font-italic" for="DropdownSType">Subject</label><br>
+<select name="DropdownSType" >
+    <option value="Complaint">Complaint</option>
+    <option value="Query">Query</option>
+		<option value="Compliment">Compliment</option>
+		<option value="Improvement">Improvement</option>
+		<option value="Others">Others</option>
+</select>
+
+
+  <br><br>
+			
+			
+		
+				<label class="font-italic" for="Message">Message</label>
+				<textarea class="feedbackformbig" id="story" name="Message" rows="7">{{Message}}</textarea>
+		</div>
+
+			<br>
+			<button class="addfeedback" type="submit" class="btn btn-primary">Save
+			</button>
+		</form>
+	</div>
+</div>
+
