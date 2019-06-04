@@ -1,0 +1,122 @@
+{{!-- <link rel="stylesheet" href="datepicker.min.css"> datepicker --}}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Delivery Details</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+    {{!-- {{#if deliveries}} --}}
+    
+    <form action="/updateDelDetails/{{deliveries.id}}?_method=PUT" method="post">
+    <div class='container'>
+        {{!-- {{#each deliveries}} --}}
+        <h1>Delivery Details</h1>
+        <p id="order-Det">Order No.: {{deliveries.cOrderNo}}</p>
+        <div class="del-cust">
+            <h3>Customer Details</h3>
+            
+            <label>Customer's Name</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cName}}' readonly />
+            <br>
+            <label>Customer's Shipping Address:</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cAddr}}' readonly />
+            <br>
+            <label>Postal Code</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cPostal_Code}}' readonly />
+            <br>
+            <label>Region</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cRegion}}' readonly />
+            <br>
+            <label>Customer Email Address</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cEmailAddr}}' readonly />
+            <br>
+            <label>Customer Phone No.</label>
+            <br>
+            <input id="readOnlyInput" value='{{deliveries.cPhoneNo}}' readonly />
+
+        </div>
+
+
+
+
+        <div class="del-cont">
+            <h3>Delivery Details</h3>
+            <label>Pick Up Location:</label>
+            <br>
+            <input id="readOnlyInput" value="Keppel Logistics @ Tampines Logistics Park, 27 Greenwich Dr" readonly />
+            <br>
+            <label>Postal Code:</label>
+            <br>
+            <input id="readOnlyInput" value="533912" readonly />
+            <br>
+            <label>Delivery Date</label>
+            <br>
+            <input name="delDate" id="datepicker" width="200" value='{{deliveries.delDate}}'> {{!--https://gijgo.com/datepicker/example/bootstrap--}}
+            
+            <label>Pick Up Time</label>
+            <br>
+            
+            <select name="delPickUpTime" id="delTime"  value='{{deliveries.delPickUpTime}}'>
+                <option class="delTime" id="nineten" value="9-10 am" >9 - 10 am</option>
+                <option class="delTime" id="teneleven" value="10-11 am" >10 - 11 am</option>
+                <option class="delTime" id="eleventwelve" value="11-12 pm" >11 - 12 pm</option>
+            </select>
+            {{!-- <input id="readOnlyInput" value="North" readonly /> --}}
+            <br>
+            {{!-- <label>Customer Email Address</label>
+            <br>
+            <input id="readOnlyInput" value={{cEmailAddr}} readonly />
+            <br>
+            <label>Customer Phone No.</label>
+            <br>
+            <input id="readOnlyInput" value={{cPhoneNo}} readonly /> --}}
+            <label>Delivery Man</label>
+            <br>
+            <select name="delMan" class="" value='{{delMan}}'>
+                <option class="" value="Steven">Steven</option>
+                <option class="" value="Adam">Adam</option>
+                <option class="" value="Patricia">Patricia</option>
+            </select>
+            <button id="buttonBack" >Back</button>
+            <button id="buttonUpdate" >Update</button>
+</form>
+            <script>
+                $('#datepicker').datepicker({
+                    uiLibrary: 'bootstrap',
+                    format: 'dd/mm/yyyy'
+                });
+            </script>
+            <script>
+                
+                document.getElementById("buttonBack").onclick = function () {
+                                location.href = "/";
+                        };
+                
+                document.getElementById("buttonUpdate").onclick = function () {
+                                location.href = "/";
+                        };
+                var t = document.getElementById("delTime");
+                var valTime = t.options[t.selectedIndex].text;
+
+                var dm = document.getElementById("delMan");
+                var valDm = dm.options[dm.selectedIndex].text;
+            </script>
+            <br><br>
+        </div>
+        {{!-- {{/each}} --}}
+        </div>
+        {{!-- {{/if}} --}}
+    <br><br><br><br>
+</body>
