@@ -1,0 +1,92 @@
+{{!-- <h3>You have a total of 3 deliveries today</h3>
+<div class="1div">
+    <label>No.:</label><p>1</p>
+    <br>
+    <label>Order No.:</label><p>{{cOrderNo}}</p>
+    <label>Customer Name:</label><p>{{cName}}</p>
+    
+</div> --}}
+<!DOCTYPE html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+
+<body onload="myFunction()">
+  <br><br><br><br>
+
+  <select class="region" name="" id="">
+    <option class="regionPick" id="" value="all" selected>All Regions</option>
+    <option class="regionPick" id="" value="East">East</option>
+    <option class="regionPick" id="" value="North">North</option>
+    <option class="regionPick" id="" value="West">West</option>
+  </select>
+  {{!-- {{#if}}
+{{#each}} --}}
+  <div class='container'>
+    <div class='panel-group' id='accordion'>
+      <script>
+
+        for (j = 0; j < 3; j++) {
+          idd = "collapse" + j;
+          document.write("<div class='panel panel-default'><div class='panel-heading'><h4 id='h4col' class='panel-title'><a id='showDate"+j+"' data-toggle='collapse' data-parent='#accordion' href='#collapse" + j + "'>" + j + "</a></h4></div><div id='collapse" + j + "' class='panel-collapse collapse'><div id='pBody' class='panel-body'></div></div></div><br><br><br>");
+          if (idd == "collapse0") {
+            document.getElementById(idd).className = 'panel-collapse collapse in';
+
+          
+          };
+        //document.getElementById('pBody').innerHTML = '{{deliveries.cName}}';
+        //document.write("{{#each deliveries}}{{#if "<script>document.getElementById('showDate0').innerHTML =='29/06/2019'</script>"}}{{delDate}}{{/if}}<br>{{/each}}");
+
+        };
+          console.log("first");
+        function myFunction() {
+          console.log("first");
+          //document.getElementById('trying').innerHTML = "cann";
+          //var d = new Date();
+          //var lastDay = new Date(date.getFullYear(), d.getMonth() + 1, 0);
+          //document.getElementById('trying').innerHTML = lastDay.toDateString('dd/mm/yyyy');
+          var i = 0;
+          var date = "";
+          for (i=0; i < 3; i++) {
+            var d = new Date();
+
+            //var lastDay = new Date(date.getFullYear(), d.getMonth() + 1, 0);
+            //document.getElementById('trying').innerHTML = lastDay;
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var year = d.getFullYear();
+            day = day + i;
+      
+            
+
+            //i++;
+            date = "<br>" + day + " / " + month + " / " + year;
+
+
+          document.getElementById('showDate'+ i).innerHTML = date;
+          document.getElementById('collapse'+ i).innerHTML ="{{#each deliveries}}{{#tester '9/07/2019' delDate operator= '=='}} {{delDate}}{{id}}<br>{{/tester}} {{/each}}";
+          }
+
+        };
+        
+
+  //var title = myFunction();
+
+      </script>
+    </div>
+  </div>
+
+
+
+<p id='noo'></p>
+  <script>
+    id=3;
+document.getElementById('noo').innerHTML = '{{deliveries.id.cName}}';
+
+  </script>
+
+</body>

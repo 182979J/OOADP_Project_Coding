@@ -7,8 +7,10 @@
         "start": "node app.js"
     },
     "dependencies": {
+        "bcryptjs": "^2.4.3",
         "body": "^5.1.0",
         "body-parser": "^1.19.0",
+        "connect-flash": "^0.1.1",
         "cookie": "^0.4.0",
         "cookie-parser": "^1.4.4",
         "date-picker": "^0.5.0",
@@ -17,12 +19,16 @@
         "express-handlebars": "^3.1.0",
         "express-mysql-session": "^2.1.0",
         "express-session": "^1.16.1",
+        "flash": "^1.1.0",
+        "flash-messenger": "^1.1.1",
         "js-datepicker": "^4.0.10",
         "method": "^2.0.0",
         "method-override": "^3.0.0",
         "mydatepicker": "^2.6.6",
         "mysql": "github:mysqljs/mysql",
         "mysql2": "^1.6.5",
+        "passport": "^0.4.0",
+        "passport-local": "^1.0.0",
         "path": "^0.12.7",
         "sequelize": "^5.8.7",
         "sequelize-cli": "^5.4.0"
