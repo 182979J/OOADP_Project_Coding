@@ -5,77 +5,40 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const flash = require('connect-flash'); //show error messages in about page
-const FlashMessenger = require('flash-messenger');
+const flash = require('connect-flash');
+const FlashMessenger = require('flash-messenger');// Library to use MySQL to store session objects
 const MySQLStore = require('express-mysql-session');
 const db = require('./config/db'); // db.js config file
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
+// const passport = require('passport');
+const passport_a = require('passport');
+    // passport_c = new Passport(),
+    // passpot_m = new Passport();
+// const passport_c = require('passport');
+// const passport_m = require('passport');
 
-// const MySQLStore = require('express-mysql-session');
+const amainRoute = require('./routes/main_a');
+const auserRoute = require('./routes/user_a');
+const aStocks = require('./routes/stocks');
+const afeedbacks = require('./routes/feedbackRec');
 
-const mainRoute = require('./routes/main_s');
+const SmainRoute = require('./routes/main_s');
+
+const { formatDate, radioCheck, replaceCommas } = require('./helpers/hbs');
+
+
 const app = express();
-// const datepicker = require('datepicker');
 
 
-// Bring in database connection
-const delDB = require('./config/DBConnection');
-// Connects to MySQL database
-delDB.setUpDB(false); // To set up database with new tables set (true)
-
-// Passport Config
-const authenticate = require('./config/passport');
-// var authenticate = require('./config/passport');
-authenticate.localStrategy(passport);
-
-
-
-
-
-// Bring in Handlebars Helpers here
-// const {formatDate} = require('./helpers/hbs'); //, radioCheck 
 
 app.engine('handlebars', exphbs({
 	helpers: {
-		// formatDate: formatDate,
-		// radioCheck : radioCheck
-		tester:function(lvalue, rvalue, options) {
+		formatDate: formatDate,
+		radioCheck: radioCheck,
+		replaceCommas: replaceCommas
+	},
 
-			if (arguments.length < 3)
-				throw new Error("Handlerbars Helper 'compare' needs 2 parameters");
-		
-			var operator = options.hash.operator || "==";
-		
-			var operators = {
-				'==':       function(l,r) { return l == r; },
-				'===':      function(l,r) { return l === r; },
-				'!=':       function(l,r) { return l != r; },
-				'<':        function(l,r) { return l < r; },
-				'>':        function(l,r) { return l > r; },
-				'<=':       function(l,r) { return l <= r; },
-				'>=':       function(l,r) { return l >= r; },
-				'typeof':   function(l,r) { return typeof l == r; }
-			}
-			if (!operators[operator])
-				throw new Error("Handlerbars Helper 'compare' doesn't know the operator "+operator);
-		
-			var result = operators[operator](lvalue,rvalue);
-
-			if( result ) {
-				return options.fn(this);
-				//return true;
-			} else {
-				return options.inverse(this);
-				//return false;
-			}
-		
-		
-		}
-
-		},
-	defaultLayout: 'main_s' // Specify default template views/layout/main.handlebar 
-	//(case semue "handlebars" will be sent to main.handlebar since main.handlebar mcm template gitu. so other handlebars considered as "body"?)
+	
+	defaultLayout: 'main_a' // Specify default template views/layout/main.handlebar 
 }));
 app.set('view engine', 'handlebars');
 
@@ -94,14 +57,9 @@ app.use(methodOverride('_method'));
 // Enables session to be stored using browser's Cookie ID
 app.use(cookieParser());
 
-app.use(methodOverride('_method'));
-
-// app.use(datepicker.initialize());
-
-// Express session middleware - uses MySQL to store session
-//session table
+// To store session information. By default it is stored as a cookie on browser
 app.use(session({
-	key: 'delivery_session',
+	key: 'vidjot_session',
 	secret: 'tojiv',
 	store: new MySQLStore({
 		host: db.host,
@@ -115,37 +73,47 @@ app.use(session({
 		// The maximum age of a valid session; milliseconds:
 		expiration: 900000,
 	}),
+
+
 	resave: false,
 	saveUninitialized: false,
 }));
-
-
-
-
-// To store session information. By default it is stored as a cookie on browser
-app.use(session({
-	key: 'delivery_session',
-	secret: 'tojiv',
-	resave: false,
-	saveUninitialized: false,
-}));
-
-
-
 // Initilize Passport middleware
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport_a.initialize());
+app.use(passport_a.session());
+
+// app.use(passport_c.initialize());
+// app.use(passport_c.session());
+
+// app.use(passport_m.initialize());
+// app.use(passport_m.session());
+
+app.use(flash());
+
+app.use(FlashMessenger.middleware); // add this statement after flash()
+app.use(function (req, res, next) {
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+});
+
+// Place to define global variables - not used in practical 1
+app.use(function (req, res, next) {
+	next();
+});
 
 
-app.use(flash()); //connect-flash yg require kat atas
-app.use(FlashMessenger.middleware); // flash-messenger yg require kt atas
+app.use('/', amainRoute); // mainRoute is declared to point to routes/main.js
+// This route maps the root URL to any path defined in main.js
+app.use('/user', auserRoute); // mainRoute is declared to point to routes/main.js
 
+app.use('/main_s', SmainRoute);
 
+app.use('/stocks', aStocks);
 
-
-// mainRoute.initialize(app);
-app.use("/", mainRoute);
-
+app.use('/feedback', afeedbacks);
 
 const port = 5000;
 
@@ -154,7 +122,10 @@ app.listen(port, () => {
 	console.log(`Server started on port ${port}`);
 });
 
-const project=require('./config/DBConnection');
-project.setUpDB(false);
-// const authenticate=require('./config/passport');
-// authenticate.localStrategy(passport);
+
+const authenticate = require('./config/passport_a');
+//const authenticate_c = require('./config/passport_c');
+// const authenticate_m = require('./config/passport_m')
+authenticate.localStrategy(passport_a);
+// authenticate_c.localStrategy(passport_c);
+// authenticate_m.localStrategy(passport);
