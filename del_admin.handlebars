@@ -1,11 +1,19 @@
 {{!-- <link rel="stylesheet" type="text/css" href="../public/css/admin_del.css"> --}}
 
-<body>
+<body onload="show()">
     <div>
         {{#if deliveries}}
         <h1>Delivery Schedule</h1>
         <br>
+        <select class="region" name="" id="selectFilter" style="margin-left: 43em;" onchange="myFunction()">
+            <option class="regionPick" id="" value="all" selected>All Regions</option>
+            <option class="regionPick" id="" value="East">East</option>
+            <option class="regionPick" id="" value="North">North</option>
+            <option class="regionPick" id="" value="West">West</option>
+        </select>
 
+
+        <br><br>
         <table class="adDel" align="center">
             <tr>
                 <th>No.</th>
@@ -42,5 +50,19 @@
 
         </table>
     </div>
+    <script>
+        function myFunction() {
+            var e = document.getElementById("selectFilter");
 
+            var strUser = e.options[e.selectedIndex].value;
+            console.log(strUser, "aye");
+            location.replace("/delivery/" + strUser)
+
+        }
+        function show() {
+            urlNow = window.location.href;
+            urlSplit = urlNow.slice(31);
+            document.getElementById("selectFilter").value = urlSplit;
+        }
+    </script>
 </body>
