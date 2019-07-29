@@ -168,7 +168,6 @@ router.get('/delManH', (req, res) => {
 });
 
 
-
 // try delivery man home
 router.get('/home', (req, res) => {
     var d = new Date();
@@ -178,7 +177,10 @@ router.get('/home', (req, res) => {
     var month = d.getMonth() + 1;
     var day = d.getDate();
     var year = d.getFullYear();
+
+  
     // day = day + i;
+  
     var tmr = day + 1;
     var tmr2 = day + 2;
     var tmr3 = day + 3;
@@ -197,11 +199,12 @@ router.get('/home', (req, res) => {
     dateTmr4 = tmr4 + "/" + month + "/" + year;
     // date="9/07/2019"
     // console.log(dateToday)
-    deli.findAll({
+    orderItem.findAll({
 
         where: {
 
             delDate: dateToday,
+            // itemName: itemName
             // delDate: dateTmr, 
             // delDate : dateTmr2, 
             // delDate : dateTmr3, 
@@ -209,7 +212,7 @@ router.get('/home', (req, res) => {
 
         }
     }).then((deli1) => {
-        deli.findAll({
+        orderItem.findAll({
 
             where: {
 
@@ -221,7 +224,7 @@ router.get('/home', (req, res) => {
 
             }
         }).then((deli2) => {
-            deli.findAll({
+            orderItem.findAll({
 
                 where: {
 
@@ -233,7 +236,7 @@ router.get('/home', (req, res) => {
 
                 }
             }).then((deli3) => {
-                deli.findAll({
+                orderItem.findAll({
 
                     where: {
 
@@ -245,7 +248,7 @@ router.get('/home', (req, res) => {
 
                     }
                 }).then((deli4) => {
-                    deli.findAll({
+                    orderItem.findAll({
 
                         where: {
 
@@ -259,18 +262,20 @@ router.get('/home', (req, res) => {
                     }).then((deli5) => {
                         orderItem.findAll({
 
-                            // where: {
+                            where: {
 
 
-                            //     // delDate: dateTmr,
-                            //     // delDate : dateTmr2, 
-                            //     // delDate : dateTmr3, 
-                            //     cOrderNo : cOrderNo
+                                delDate: dateTmr,
+                                
+                                // ItemName : 'item4'
+                                // delDate : dateTmr2, 
+                                // delDate : dateTmr3, 
+                                // cOrderNo : cOrderNo
 
-                            // },
+                            },
                             raw: true
                         }).then((order) => {
-                            console.log(order)
+                            console.log(order, "Meow")
                             for (let index = 0; index < 5; index++) {
                                 const count = index;
 
@@ -292,10 +297,9 @@ router.get('/home', (req, res) => {
                                 // dateTmr2: dateTmr2, 
                                 dateTmr3: dateTmr3,
                                 dateTmr4: dateTmr4,
-                                orderItem: order,
-                                where: {
-
-                                }
+                                order: order,
+                                // ItemName: ItemName,
+                              
 
 
                             })
